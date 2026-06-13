@@ -249,50 +249,97 @@ label { color:#374151 !important; font-size:.8rem !important; font-weight:600 !i
 /* ─ Toggle ─ */
 [data-testid="stToggle"] label { color:#374151 !important; font-weight:500 !important; }
 
-/* ─ Predict button only (keyed via aria-label workaround: target by data-testid child) ─ */
-[data-testid="stButton"]:has(button[kind="primaryFormSubmit"]) > button,
-div[data-testid="stButton"] > button[kind="primary"] {
-    background:linear-gradient(135deg,#16A34A,#15803D) !important;
-    color:#FFFFFF !important; font-weight:800 !important; font-size:.95rem !important;
-    letter-spacing:.06em !important; border:none !important; border-radius:12px !important;
-    padding:.72rem 2rem !important; width:100% !important;
-    box-shadow:0 4px 16px rgba(21,128,61,.3) !important;
-    transition:opacity .2s, transform .1s !important;
-}
-/* Target specifically the predict button by its container key */
-div[data-testid="column"]:has(> div > div > div > [data-testid="stButton"]) > div > div > div > [data-testid="stButton"] > button {
-    background:linear-gradient(135deg,#16A34A,#15803D) !important;
-    color:#FFFFFF !important; font-weight:800 !important; font-size:.95rem !important;
-    letter-spacing:.06em !important; border:none !important; border-radius:12px !important;
-    padding:.72rem 2rem !important; width:100% !important;
-    box-shadow:0 4px 16px rgba(21,128,61,.3) !important;
-}
-[data-testid="stButton"] > button { transition:opacity .2s, transform .1s !important; }
-[data-testid="stButton"] > button:hover { opacity:.88 !important; transform:translateY(-1px) !important; }
-[data-testid="stButton"] > button:active { transform:translateY(0) !important; }
-
-/* ─ Segmented control (nav) ─ */
-[data-testid="stSegmentedControl"] {
-    background: #FFFFFF !important;
-    border: 1.5px solid #D1FAE5 !important;
-    border-radius: 999px !important;
-    padding: .18rem !important;
-}
-[data-testid="stSegmentedControl"] label {
-    font-size: .8rem !important;
+/* ─ Buttons ─ */
+[data-testid="stButton"] > button {
+    border-radius: 10px !important;
     font-weight: 600 !important;
-    color: #6B7280 !important;
-    border-radius: 999px !important;
-    padding: .35rem 1rem !important;
+    font-size: .82rem !important;
+    transition: opacity .18s, transform .1s, background .15s !important;
+    border: 1.5px solid #D1D5DB !important;
+    background: #FFFFFF !important;
+    color: #374151 !important;
+    padding: .5rem 1rem !important;
 }
-[data-testid="stSegmentedControl"] label[data-selected="true"] {
-    background: #15803D !important;
-    color: #FFFFFF !important;
-}
-[data-testid="stSegmentedControl"] label:hover:not([data-selected="true"]) {
+[data-testid="stButton"] > button:hover {
+    border-color: #86EFAC !important;
     background: #F0FDF4 !important;
     color: #15803D !important;
+    transform: translateY(-1px) !important;
 }
+/* Predict button — ciblé par key via data-testid parent */
+[data-testid="stButton"]:has(> button[data-testid="btn_predict"]) > button,
+div:has(> [data-testid="stButton"] > button#btn_predict) > [data-testid="stButton"] > button,
+[data-testid="stButton"][key="btn_predict"] > button {
+    background: linear-gradient(135deg,#16A34A,#15803D) !important;
+    color: #FFFFFF !important; font-weight: 800 !important; font-size: 1rem !important;
+    letter-spacing: .06em !important; border: none !important; border-radius: 12px !important;
+    padding: .78rem 2rem !important;
+    box-shadow: 0 4px 16px rgba(21,128,61,.3) !important;
+}
+/* Fallback : dernier bouton dans sa colonne centrale = predict */
+[data-testid="stButton"] > button[kind="primary"] {
+    background: linear-gradient(135deg,#16A34A,#15803D) !important;
+    color: #FFFFFF !important; font-weight: 800 !important; font-size: 1rem !important;
+    letter-spacing: .06em !important; border: none !important; border-radius: 12px !important;
+    padding: .78rem 2rem !important;
+    box-shadow: 0 4px 16px rgba(21,128,61,.3) !important;
+}
+
+/* ─ Nav buttons ─ */
+[data-testid="stButton"][key="nav_pred"] > button,
+[data-testid="stButton"][key="nav_expl"] > button {
+    background: #F0FDF4 !important;
+    color: #15803D !important;
+    border: 1.5px solid #BBF7D0 !important;
+    border-radius: 999px !important;
+    font-size: .82rem !important;
+    font-weight: 600 !important;
+    padding: .38rem 1.1rem !important;
+    width: auto !important;
+    box-shadow: none !important;
+    transition: all .15s !important;
+}
+[data-testid="stButton"][key="nav_pred"] > button:hover,
+[data-testid="stButton"][key="nav_expl"] > button:hover {
+    background: #DCFCE7 !important;
+    border-color: #86EFAC !important;
+    transform: none !important;
+    opacity: 1 !important;
+}
+
+/* ─ Nav radio (fallback, kept for safety) ─ */
+div[data-testid="stRadio"] > div { gap: .4rem !important; }
+div[data-testid="stRadio"] label {
+    background: #F0FDF4 !important;
+    border: 1.5px solid #BBF7D0 !important;
+    border-radius: 999px !important;
+    padding: .38rem 1.1rem !important;
+    font-size: .82rem !important;
+    font-weight: 600 !important;
+    color: #15803D !important;
+    cursor: pointer !important;
+}
+div[data-testid="stRadio"] [data-baseweb="radio"] > div:first-child { display: none !important; }
+
+/* ─ Neutral selector card ─ */
+.neutral-card {
+    background: #FFFFFF; border: 1.5px solid #E5E7EB; border-radius: 12px;
+    padding: .85rem 1.1rem; display: flex; align-items: flex-start; gap: .9rem;
+    cursor: pointer; transition: border-color .18s, box-shadow .18s;
+    position: relative;
+}
+.neutral-card:hover { border-color: #86EFAC; box-shadow: 0 2px 10px rgba(21,128,61,.1); }
+.neutral-card.selected { border-color: #16A34A; background: #F0FDF4; }
+.neutral-card-icon { font-size: 1.6rem; flex-shrink: 0; line-height: 1; margin-top: .1rem; }
+.neutral-card-title { font-size: .82rem; font-weight: 700; color: #111827; }
+.neutral-card-desc  { font-size: .72rem; color: #6B7280; margin-top: .18rem; line-height: 1.4; }
+.neutral-card-badge {
+    position: absolute; top: .6rem; right: .8rem;
+    font-size: .62rem; font-weight: 700; padding: .18rem .55rem;
+    border-radius: 999px; letter-spacing: .06em; text-transform: uppercase;
+}
+.neutral-card.selected .neutral-card-badge { background: #DCFCE7; color: #15803D; }
+.neutral-card:not(.selected) .neutral-card-badge { background: #F3F4F6; color: #9CA3AF; }
 
 /* ─ Warn box ─ */
 .warn-box { background:#FFFBEB; border:1.5px solid #FCD34D; border-radius:9px; padding:.65rem 1rem; font-size:.78rem; color:#92400E; margin:.5rem 0; font-weight:500; }
@@ -339,22 +386,24 @@ def load_predictor(model_dir: Path):
 
 # ── Nav bar ────────────────────────────────────────────────────────────────────
 def render_nav():
-    col_brand, col_spacer, col_nav = st.columns([3, 1, 3])
+    col_brand, _, col_nav = st.columns([3, 1, 3])
     with col_brand:
-        st.markdown('<div class="topnav-brand" style="padding-top:.35rem;">CDM <span>2026</span> ⚽</div>', unsafe_allow_html=True)
+        st.markdown('<div class="topnav-brand" style="padding-top:.4rem;">CDM <span>2026</span> ⚽</div>', unsafe_allow_html=True)
     with col_nav:
-        # segmented_control retourne la valeur sélectionnée directement, pas de rerun bug
-        selected = st.segmented_control(
-            "nav",
-            options=["⚽ Prédicteur", "📖 Comment ça marche ?"],
-            default="⚽ Prédicteur" if st.session_state.page == "predictor" else "📖 Comment ça marche ?",
-            label_visibility="collapsed",
-            key="nav_ctrl",
-        )
-        if selected is not None:
-            new_page = "predictor" if "Prédicteur" in selected else "explainer"
-            if new_page != st.session_state.page:
-                st.session_state.page = new_page
+        is_pred = st.session_state.page == "predictor"
+        nc1, nc2 = st.columns(2)
+        with nc1:
+            # Style inline pour l'état actif — surcharge le CSS global
+            active_style = "background:#15803D!important;color:#fff!important;border-color:#15803D!important;" if is_pred else ""
+            st.markdown(f'<style>[data-testid="stButton"][key="nav_pred"]>button{{{active_style}}}</style>', unsafe_allow_html=True)
+            if st.button("⚽ Prédicteur", key="nav_pred", use_container_width=True):
+                st.session_state.page = "predictor"
+                st.rerun()
+        with nc2:
+            active_style = "background:#15803D!important;color:#fff!important;border-color:#15803D!important;" if not is_pred else ""
+            st.markdown(f'<style>[data-testid="stButton"][key="nav_expl"]>button{{{active_style}}}</style>', unsafe_allow_html=True)
+            if st.button("📖 Comment ça marche ?", key="nav_expl", use_container_width=True):
+                st.session_state.page = "explainer"
                 st.rerun()
 
 
@@ -425,31 +474,75 @@ def page_predictor():
                                     index=DISPLAY_LIST.index("Brazil"),
                                     label_visibility="collapsed", key="sel_away")
 
-    st.markdown("<div style='height:.3rem'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:.4rem'></div>", unsafe_allow_html=True)
 
-    opt_l, opt_c, opt_r = st.columns([2, 3, 2])
-    with opt_c:
-        neutral = st.toggle("⚖️ Terrain neutre", value=True, key="tog_neutral",
-                            help="CDM 2026 : matchs joués aux USA, Canada, Mexique — terrain neutre pour toutes les équipes sauf les hôtes.")
+    # ── Terrain neutre — sélecteur explicite centré ────────────────────────
+    _, neutral_col, _ = st.columns([1, 4, 1])
+    with neutral_col:
+        st.markdown('<div class="section-label" style="text-align:center;margin-bottom:.5rem;">📍 Type de terrain</div>', unsafe_allow_html=True)
+        neu_c1, neu_c2 = st.columns(2)
 
-    st.markdown("<div style='height:.2rem'></div>", unsafe_allow_html=True)
+        neutral_sel = st.session_state.get("neutral_choice", "neutre")
 
-    _, btn_col, _ = st.columns([2, 3, 2])
+        with neu_c1:
+            sel_cls = "selected" if neutral_sel == "neutre" else ""
+            st.markdown(f"""
+            <div class="neutral-card {sel_cls}">
+              <div class="neutral-card-icon">🌍</div>
+              <div>
+                <div class="neutral-card-title">Terrain neutre</div>
+                <div class="neutral-card-desc">Aucune équipe joue à domicile.<br>Cas typique CDM 2026 (USA / Canada / Mexique).</div>
+              </div>
+              <span class="neutral-card-badge">{'✓ Sélectionné' if neutral_sel == 'neutre' else 'Cliquer'}</span>
+            </div>""", unsafe_allow_html=True)
+            if st.button("🌍 Terrain neutre", key="btn_neutre", use_container_width=True):
+                st.session_state["neutral_choice"] = "neutre"
+                st.rerun()
+
+        with neu_c2:
+            sel_cls = "selected" if neutral_sel == "domicile" else ""
+            st.markdown(f"""
+            <div class="neutral-card {sel_cls}">
+              <div class="neutral-card-icon">🏠</div>
+              <div>
+                <div class="neutral-card-title">Équipe 1 à domicile</div>
+                <div class="neutral-card-desc">L'équipe 1 joue chez elle.<br>Avantage terrain pris en compte dans le modèle.</div>
+              </div>
+              <span class="neutral-card-badge">{'✓ Sélectionné' if neutral_sel == 'domicile' else 'Cliquer'}</span>
+            </div>""", unsafe_allow_html=True)
+            if st.button("🏠 Équipe 1 à domicile", key="btn_domicile", use_container_width=True):
+                st.session_state["neutral_choice"] = "domicile"
+                st.rerun()
+
+    neutral = (st.session_state.get("neutral_choice", "neutre") == "neutre")
+
+    st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
+
+    # ── Bouton centré ─────────────────────────────────────────────────────
+    _, btn_col, _ = st.columns([1, 2, 1])
     with btn_col:
-        run = st.button("⚽  PRÉDIRE LE SCORE", key="btn_predict")
+        run = st.button("⚽  PRÉDIRE LE SCORE", key="btn_predict", use_container_width=True)
 
     home_key = DISPLAY_TO_KEY[home_display]
     away_key = DISPLAY_TO_KEY[away_display]
 
-    # Invalider le cache si les équipes ou options ont changé
     cache_key = (home_key, away_key, neutral)
+
     if run:
         if home_key == away_key:
             st.markdown('<div class="warn-box">⚠️ Sélectionne deux équipes différentes.</div>', unsafe_allow_html=True)
             return
-        if st.session_state.get("pred_cache_key") != cache_key:
-            # Afficher le spinner PENDANT le calcul, stocker en session_state
-            with st.spinner("⚽ Analyse en cours…"):
+        # Lancer le calcul avec un spinner bien visible
+        placeholder = st.empty()
+        with placeholder.container():
+            with st.spinner(""):
+                st.markdown("""
+                <div style="text-align:center;padding:2rem 0;">
+                  <div style="font-size:2.5rem;margin-bottom:.6rem;">⚽</div>
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#15803D;letter-spacing:.08em;">Analyse en cours…</div>
+                  <div style="font-size:.8rem;color:#6B7280;margin-top:.35rem;">Le modèle calcule les probabilités</div>
+                </div>
+                """, unsafe_allow_html=True)
                 try:
                     predictor = load_predictor(MODEL_DIR)
                     r = predictor.predict_score(home_key, away_key,
@@ -458,11 +551,13 @@ def page_predictor():
                     st.session_state["pred_result"]    = r
                     st.session_state["pred_cache_key"] = cache_key
                 except Exception as e:
+                    placeholder.empty()
                     st.error(f"Erreur : {e}")
                     st.exception(e)
                     return
+        placeholder.empty()
 
-    # Afficher le résultat stocké (persiste après rerun)
+    # Afficher le résultat stocké
     if "pred_result" not in st.session_state or st.session_state.get("pred_cache_key") != cache_key:
         return
     r = st.session_state["pred_result"]
