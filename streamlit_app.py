@@ -24,7 +24,7 @@ COUNTRIES_FLAGS = {
     "Mexico": "🇲🇽", "South_Africa": "🇿🇦", "South_Korea": "🇰🇷",
     "Czechia": "🇨🇿", "Canada": "🇨🇦", "Bosnia_and_Herzegovina": "🇧🇦",
     "Qatar": "🇶🇦", "Switzerland": "🇨🇭", "Brazil": "🇧🇷", "Morocco": "🇲🇦",
-    "Haiti": "🇭🇹", "Scotland": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "United_States": "🇺🇸", "Paraguay": "🇵🇾",
+    "Haiti": "🇭🇹", "Scotland": "SC", "United_States": "🇺🇸", "Paraguay": "🇵🇾",
     "Australia": "🇦🇺", "Turkey": "🇹🇷", "Germany": "🇩🇪", "Curaçao": "🇨🇼",
     "Ecuador": "🇪🇨", "Ivory_Coast": "🇨🇮", "Netherlands": "🇳🇱", "Japan": "🇯🇵",
     "Sweden": "🇸🇪", "Tunisia": "🇹🇳", "Belgium": "🇧🇪", "Egypt": "🇪🇬",
@@ -32,7 +32,7 @@ COUNTRIES_FLAGS = {
     "Saudi_Arabia": "🇸🇦", "Uruguay": "🇺🇾", "France": "🇫🇷", "Senegal": "🇸🇳",
     "Iraq": "🇮🇶", "Norway": "🇳🇴", "Argentina": "🇦🇷", "Algeria": "🇩🇿",
     "Austria": "🇦🇹", "Jordan": "🇯🇴", "Portugal": "🇵🇹", "DR_Congo": "🇨🇩",
-    "Uzbekistan": "🇺🇿", "Colombia": "🇨🇴", "England": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "Croatia": "🇭🇷",
+    "Uzbekistan": "🇺🇿", "Colombia": "🇨🇴", "England": "EN", "Croatia": "🇭🇷",
     "Ghana": "🇬🇭", "Panama": "🇵🇦",
 }
 
@@ -61,6 +61,22 @@ html, body, [data-testid="stAppViewContainer"] {
 [data-testid="stHeader"] { background: transparent !important; }
 .block-container { padding-top: 0 !important; max-width: 1060px !important; }
 * { font-family: 'Inter', sans-serif; }
+            
+/* Champ de recherche du selectbox (BaseWeb) */
+[data-baseweb="select"] input {
+    color: #111 !important;
+    caret-color: #111 !important;
+}
+
+/* Placeholder visible aussi */
+[data-baseweb="select"] input::placeholder {
+    color: #6B7280 !important;
+}
+
+/* Sécurité : fond du champ */
+[data-baseweb="select"] {
+    color: #111 !important;
+}
 
 /* ─ Top nav bar ─ */
 .topnav {
