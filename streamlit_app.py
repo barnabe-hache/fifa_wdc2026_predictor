@@ -13,7 +13,7 @@ SCRIPTS_DIR  = PROJECT_ROOT / "scripts"
 
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="CDM 2026 Predictor",
+    page_title="WC 2026 Predictor",
     page_icon="⚽",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -62,18 +62,18 @@ html, body, [data-testid="stAppViewContainer"] {
 .block-container { padding-top: 0 !important; max-width: 1060px !important; }
 * { font-family: 'Inter', sans-serif; }
             
-/* Champ de recherche du selectbox (BaseWeb) */
+/* Selectbox search field (BaseWeb) */
 [data-baseweb="select"] input {
     color: #111 !important;
     caret-color: #111 !important;
 }
 
-/* Placeholder visible aussi */
+/* Make placeholder visible too */
 [data-baseweb="select"] input::placeholder {
     color: #6B7280 !important;
 }
 
-/* Sécurité : fond du champ */
+/* Safety: field background */
 [data-baseweb="select"] {
     color: #111 !important;
 }
@@ -282,7 +282,7 @@ label { color:#374151 !important; font-size:.8rem !important; font-weight:600 !i
     color: #15803D !important;
     transform: translateY(-1px) !important;
 }
-/* Predict button — ciblé par key via data-testid parent */
+/* Predict button — targeted by key via data-testid parent */
 [data-testid="stButton"]:has(> button[data-testid="btn_predict"]) > button,
 div:has(> [data-testid="stButton"] > button#btn_predict) > [data-testid="stButton"] > button,
 [data-testid="stButton"][key="btn_predict"] > button {
@@ -292,7 +292,7 @@ div:has(> [data-testid="stButton"] > button#btn_predict) > [data-testid="stButto
     padding: .78rem 2rem !important;
     box-shadow: 0 4px 16px rgba(21,128,61,.3) !important;
 }
-/* Fallback : dernier bouton dans sa colonne centrale = predict */
+/* Fallback: last button in its center column = predict */
 [data-testid="stButton"] > button[kind="primary"] {
     background: linear-gradient(135deg,#16A34A,#15803D) !important;
     color: #FFFFFF !important; font-weight: 800 !important; font-size: 1rem !important;
@@ -400,7 +400,7 @@ def load_predictor(model_dir: Path):
     return Predictor(model_dir)
 
 
-# ── Nav bar ────────────────────────────────────────────────────────────────────
+# ── Nav bar ─────────────────────────────────────────────────────────────────────
 def render_nav():
     col_brand, _, col_nav = st.columns([3, 1, 3])
     with col_brand:
@@ -409,16 +409,16 @@ def render_nav():
         is_pred = st.session_state.page == "predictor"
         nc1, nc2 = st.columns(2)
         with nc1:
-            # Style inline pour l'état actif — surcharge le CSS global
+            # Inline style for active state — overrides the global CSS
             active_style = "background:#15803D!important;color:#fff!important;border-color:#15803D!important;" if is_pred else ""
             st.markdown(f'<style>[data-testid="stButton"][key="nav_pred"]>button{{{active_style}}}</style>', unsafe_allow_html=True)
-            if st.button("⚽ Prédicteur", key="nav_pred", use_container_width=True):
+            if st.button("⚽ Predictor", key="nav_pred", use_container_width=True):
                 st.session_state.page = "predictor"
                 st.rerun()
         with nc2:
             active_style = "background:#15803D!important;color:#fff!important;border-color:#15803D!important;" if not is_pred else ""
             st.markdown(f'<style>[data-testid="stButton"][key="nav_expl"]>button{{{active_style}}}</style>', unsafe_allow_html=True)
-            if st.button("📖 Comment ça marche ?", key="nav_expl", use_container_width=True):
+            if st.button("📖 How does it work?", key="nav_expl", use_container_width=True):
                 st.session_state.page = "explainer"
                 st.rerun()
 
@@ -471,73 +471,73 @@ def compare_bar(label: str, val_h, val_a, low_good=False) -> str:
 def page_predictor():
     st.markdown("""
     <div class="hero">
-      <div class="hero-eyebrow">🏆 FIFA World Cup 2026 · Analyse & Prédiction</div>
-      <h1 class="hero-title">QUI VA <span>GAGNER</span> ?</h1>
+      <div class="hero-eyebrow">🏆 FIFA World Cup 2026 · Analysis & Prediction</div>
+      <h1 class="hero-title">WHO'S GOING TO <span>WIN</span>?</h1>
     </div>
     """, unsafe_allow_html=True)
 
     col_h, col_v, col_a = st.columns([5, 1, 5])
     with col_h:
-        st.markdown('<div class="section-label">🏠 Équipe 1</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-label">🏠 Team 1</div>', unsafe_allow_html=True)
         home_display = st.selectbox("home_sel", DISPLAY_LIST,
                                     index=DISPLAY_LIST.index("France"),
                                     label_visibility="collapsed", key="sel_home")
     with col_v:
         st.markdown('<div style="text-align:center;padding-top:1rem;font-family:\'Bebas Neue\',sans-serif;font-size:2rem;color:#F59E0B;letter-spacing:.12em;">VS</div>', unsafe_allow_html=True)
     with col_a:
-        st.markdown('<div class="section-label">✈️ Équipe 2</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-label">✈️ Team 2</div>', unsafe_allow_html=True)
         away_display = st.selectbox("away_sel", DISPLAY_LIST,
                                     index=DISPLAY_LIST.index("Brazil"),
                                     label_visibility="collapsed", key="sel_away")
 
     st.markdown("<div style='height:.4rem'></div>", unsafe_allow_html=True)
 
-    # ── Terrain neutre — sélecteur explicite centré ────────────────────────
+    # ── Venue type — explicit centred selector ─────────────────────────────
     _, neutral_col, _ = st.columns([1, 4, 1])
     with neutral_col:
-        st.markdown('<div class="section-label" style="text-align:center;margin-bottom:.5rem;">📍 Type de terrain</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-label" style="text-align:center;margin-bottom:.5rem;">📍 Venue type</div>', unsafe_allow_html=True)
         neu_c1, neu_c2 = st.columns(2)
 
-        neutral_sel = st.session_state.get("neutral_choice", "neutre")
+        neutral_sel = st.session_state.get("neutral_choice", "neutral")
 
         with neu_c1:
-            sel_cls = "selected" if neutral_sel == "neutre" else ""
+            sel_cls = "selected" if neutral_sel == "neutral" else ""
             st.markdown(f"""
             <div class="neutral-card {sel_cls}">
               <div class="neutral-card-icon">🌍</div>
               <div>
-                <div class="neutral-card-title">Terrain neutre</div>
-                <div class="neutral-card-desc">Aucune équipe joue à domicile.<br>Cas typique CDM 2026 (USA / Canada / Mexique).</div>
+                <div class="neutral-card-title">Neutral venue</div>
+                <div class="neutral-card-desc">Neither team plays at home.<br>Typical case for WC 2026 (USA / Canada / Mexico).</div>
               </div>
-              <span class="neutral-card-badge">{'✓ Sélectionné' if neutral_sel == 'neutre' else 'Cliquer'}</span>
+              <span class="neutral-card-badge">{'✓ Selected' if neutral_sel == 'neutral' else 'Click'}</span>
             </div>""", unsafe_allow_html=True)
-            if st.button("🌍 Terrain neutre", key="btn_neutre", use_container_width=True):
-                st.session_state["neutral_choice"] = "neutre"
+            if st.button("🌍 Neutral venue", key="btn_neutre", use_container_width=True):
+                st.session_state["neutral_choice"] = "neutral"
                 st.rerun()
 
         with neu_c2:
-            sel_cls = "selected" if neutral_sel == "domicile" else ""
+            sel_cls = "selected" if neutral_sel == "home" else ""
             st.markdown(f"""
             <div class="neutral-card {sel_cls}">
               <div class="neutral-card-icon">🏠</div>
               <div>
-                <div class="neutral-card-title">Équipe 1 à domicile</div>
-                <div class="neutral-card-desc">L'équipe 1 joue chez elle.<br>Avantage terrain pris en compte dans le modèle.</div>
+                <div class="neutral-card-title">Team 1 at home</div>
+                <div class="neutral-card-desc">Team 1 plays on home soil.<br>Home advantage factored into the model.</div>
               </div>
-              <span class="neutral-card-badge">{'✓ Sélectionné' if neutral_sel == 'domicile' else 'Cliquer'}</span>
+              <span class="neutral-card-badge">{'✓ Selected' if neutral_sel == 'home' else 'Click'}</span>
             </div>""", unsafe_allow_html=True)
-            if st.button("🏠 Équipe 1 à domicile", key="btn_domicile", use_container_width=True):
-                st.session_state["neutral_choice"] = "domicile"
+            if st.button("🏠 Team 1 at home", key="btn_domicile", use_container_width=True):
+                st.session_state["neutral_choice"] = "home"
                 st.rerun()
 
-    neutral = (st.session_state.get("neutral_choice", "neutre") == "neutre")
+    neutral = (st.session_state.get("neutral_choice", "neutral") == "neutral")
 
     st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
 
-    # ── Bouton centré ─────────────────────────────────────────────────────
+    # ── Centred button ──────────────────────────────────────────────────────
     _, btn_col, _ = st.columns([1, 2, 1])
     with btn_col:
-        run = st.button("⚽  PRÉDIRE LE SCORE", key="btn_predict", use_container_width=True)
+        run = st.button("⚽  PREDICT THE SCORE", key="btn_predict", use_container_width=True)
 
     home_key = DISPLAY_TO_KEY[home_display]
     away_key = DISPLAY_TO_KEY[away_display]
@@ -546,17 +546,17 @@ def page_predictor():
 
     if run:
         if home_key == away_key:
-            st.markdown('<div class="warn-box">⚠️ Sélectionne deux équipes différentes.</div>', unsafe_allow_html=True)
+            st.markdown('<div class="warn-box">⚠️ Please select two different teams.</div>', unsafe_allow_html=True)
             return
-        # Lancer le calcul avec un spinner bien visible
+        # Run the computation with a clearly visible spinner
         placeholder = st.empty()
         with placeholder.container():
             with st.spinner(""):
                 st.markdown("""
                 <div style="text-align:center;padding:2rem 0;">
                   <div style="font-size:2.5rem;margin-bottom:.6rem;">⚽</div>
-                  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#15803D;letter-spacing:.08em;">Analyse en cours…</div>
-                  <div style="font-size:.8rem;color:#6B7280;margin-top:.35rem;">Le modèle calcule les probabilités</div>
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#15803D;letter-spacing:.08em;">Analysing…</div>
+                  <div style="font-size:.8rem;color:#6B7280;margin-top:.35rem;">The model is computing probabilities</div>
                 </div>
                 """, unsafe_allow_html=True)
                 try:
@@ -568,12 +568,12 @@ def page_predictor():
                     st.session_state["pred_cache_key"] = cache_key
                 except Exception as e:
                     placeholder.empty()
-                    st.error(f"Erreur : {e}")
+                    st.error(f"Error: {e}")
                     st.exception(e)
                     return
         placeholder.empty()
 
-    # Afficher le résultat stocké
+    # Display the stored result
     if "pred_result" not in st.session_state or st.session_state.get("pred_cache_key") != cache_key:
         return
     r = st.session_state["pred_result"]
@@ -582,13 +582,13 @@ def page_predictor():
     res     = r["predicted_result"]
     res_cls = "home" if res == "home_win" else ("draw" if res == "draw" else "away")
     res_labels = {
-        "home_win": f"VICTOIRE {home_display.upper()}",
-        "draw":     "MATCH NUL",
-        "away_win": f"VICTOIRE {away_display.upper()}",
+        "home_win": f"WIN {home_display.upper()}",
+        "draw":     "DRAW",
+        "away_win": f"WIN {away_display.upper()}",
     }
     conf = r["confidence_score"]
 
-    # ── Matchup hero ──────────────────────────────────────────────────────
+    # ── Matchup hero ────────────────────────────────────────────────────────
     st.markdown(f"""
     <div class="matchup">
       <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap;">
@@ -607,7 +607,7 @@ def page_predictor():
         </div>
       </div>
       <div class="conf-wrap">
-        <div class="conf-label">Indice de confiance du modèle</div>
+        <div class="conf-label">Model confidence</div>
         <div class="conf-bar-bg"><div class="conf-bar-fill" style="width:{int(conf*100)}%"></div></div>
         <div class="conf-val">{conf:.0%}</div>
       </div>
@@ -622,9 +622,9 @@ def page_predictor():
     ai  = r["away_team_info"]
     dom = r["dominance_index"]
 
-    t1, t2, t3, t4 = st.tabs(["📊  Probabilités", "⚽  xG & Buts", "📈  ELO & Force", "🤝  H2H & Forme"])
+    t1, t2, t3, t4 = st.tabs(["📊  Probabilities", "⚽  xG & Goals", "📈  ELO & Strength", "🤝  H2H & Form"])
 
-    # ─ Tab 1 : Probabilités ───────────────────────────────────────────────
+    # ─ Tab 1: Probabilities ────────────────────────────────────────────────
     with t1:
         c1, c2 = st.columns(2)
         with c1:
@@ -634,15 +634,15 @@ def page_predictor():
             fav_flag = flag(home_key if upset["favorite"] == "home" else away_key)
             bars = (
                 proba_bar(f"{flag(home_key)} {home_display}", rp["home_win"], "home") +
-                proba_bar("⚖️ Match nul", rp["draw"], "draw") +
+                proba_bar("⚖️ Draw", rp["draw"], "draw") +
                 proba_bar(f"{flag(away_key)} {away_display}", rp["away_win"], "away")
             )
             st.markdown(f"""
             <div class="card">
-              <div class="card-title">Résultat du match</div>
+              <div class="card-title">Match result</div>
               {bars}
               <div style="margin-top:1.05rem;padding-top:.8rem;border-top:1.5px solid #F3F4F6;">
-                <div class="card-title">Indice de dominance</div>
+                <div class="card-title">Dominance index</div>
                 <div class="dom-track"><div class="dom-needle" style="left:{needle:.1f}%"></div></div>
                 <div style="display:flex;justify-content:space-between;font-size:.6rem;color:#9CA3AF;margin-top:.2rem;">
                   <span>← {away_display}</span><span>{home_display} →</span>
@@ -650,72 +650,72 @@ def page_predictor():
                 <div style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:.85rem;color:#111827;margin-top:.22rem;font-weight:700;">{dom:+.3f}</div>
               </div>
               <div style="margin-top:1rem;padding-top:.8rem;border-top:1.5px solid #F3F4F6;">
-                <div class="card-title">Probabilité d'upset</div>
-                <div style="font-size:.8rem;color:#374151;font-weight:500;">Favori ELO : <strong style="color:#111827;">{fav_flag} {fav_name}</strong></div>
+                <div class="card-title">Upset probability</div>
+                <div style="font-size:.8rem;color:#374151;font-weight:500;">ELO favourite: <strong style="color:#111827;">{fav_flag} {fav_name}</strong></div>
                 <div style="font-family:'JetBrains Mono',monospace;font-size:1.3rem;color:#D97706;margin-top:.22rem;font-weight:700;">
-                  {upset['upset_prob']:.1%} <span style="font-size:.65rem;color:#9CA3AF;font-weight:400;">de chances pour l'outsider</span>
+                  {upset['upset_prob']:.1%} <span style="font-size:.65rem;color:#9CA3AF;font-weight:400;">chance for the underdog</span>
                 </div>
               </div>
             </div>""", unsafe_allow_html=True)
 
         with c2:
-            sc_html = '<div class="card"><div class="card-title">Top 5 scores les plus probables</div><div class="score-grid">'
+            sc_html = '<div class="card"><div class="card-title">Top 5 most likely scores</div><div class="score-grid">'
             for i, s in enumerate(r["top5_scores"]):
                 sc_html += f'<div class="score-cell{"  best" if i==0 else ""}"><div class="score-cell-score">{s["home"]}–{s["away"]}</div><div class="score-cell-pct">{s["proba"]:.1%}</div></div>'
             sc_html += "</div>"
 
             p_conf = (
-                metric_pill("Confiance modèle", f"{conf:.0%}",
-                    "Indice [0–1] combinant : clarté du résultat (50%), écart ELO (35%), richesse H2H (15%). Élevé = signal clair.",
+                metric_pill("Model confidence", f"{conf:.0%}",
+                    "Score [0–1] combining: result clarity (50%), ELO gap (35%), H2H depth (15%). High = clear signal.",
                     "green" if conf > 0.6 else "amber") +
                 metric_pill("Dominance",  f"{dom:+.3f}",
-                    "Score composite [−1, +1] : 40% avantage xG + 35% avantage ELO + 25% win prob. +1 = domination totale équipe 1.") +
-                metric_pill("Mode inférence",
-                    "Symétrique ✓" if r["match_context"]["symmetric_inference"] else "Standard",
-                    "En terrain neutre : double passe (A vs B + B vs A) puis moyenne des λ. Garantit predict(A,B) = predict(B,A).",
+                    "Composite score [−1, +1]: 40% xG edge + 35% ELO edge + 25% win prob. +1 = total Team 1 dominance.") +
+                metric_pill("Inference mode",
+                    "Symmetric ✓" if r["match_context"]["symmetric_inference"] else "Standard",
+                    "On neutral venue: double pass (A vs B + B vs A) then λ averaging. Guarantees predict(A,B) = predict(B,A).",
                     "green" if r["match_context"]["symmetric_inference"] else "")
             )
-            sc_html += f'<div style="margin-top:.85rem;"><div class="card-title">Indicateurs clés</div><div class="metrics-grid">{p_conf}</div></div></div>'
+            sc_html += f'<div style="margin-top:.85rem;"><div class="card-title">Key indicators</div><div class="metrics-grid">{p_conf}</div></div></div>'
             st.markdown(sc_html, unsafe_allow_html=True)
 
-    # ─ Tab 2 : xG & Buts ─────────────────────────────────────────────────
+    # ─ Tab 2: xG & Goals ───────────────────────────────────────────────────
     with t2:
         c1, c2 = st.columns(2)
         with c1:
             pxg = (
-                metric_pill(f"xG {home_display[:14]}", f"{xg['xg_home']}", f"Buts attendus pour {home_display} selon Poisson calibré. λ pilote toute la distribution.", "green") +
-                metric_pill(f"xG {away_display[:14]}", f"{xg['xg_away']}", f"Buts attendus pour {away_display}.", "green") +
-                metric_pill("xG Total",  f"{xg['xg_total']}", "Somme des deux λ = buts totaux attendus dans le match.") +
-                metric_pill("xG Diff",   f"{xg['xg_diff']:+.3f}", f"λ_home − λ_away. Positif = avantage offensif {home_display}.")
+                metric_pill(f"xG {home_display[:14]}", f"{xg['xg_home']}", f"Expected goals for {home_display} from the calibrated Poisson model. λ drives the entire distribution.", "green") +
+                metric_pill(f"xG {away_display[:14]}", f"{xg['xg_away']}", f"Expected goals for {away_display}.", "green") +
+                metric_pill("Total xG",  f"{xg['xg_total']}", "Sum of both λ values = total expected goals in the match.") +
+                metric_pill("xG Diff",   f"{xg['xg_diff']:+.3f}", f"λ_home − λ_away. Positive = offensive edge for {home_display}.")
             )
             pm = (
-                metric_pill("Poisson GLM home", f"{r['poisson_lambda_home']:.3f}", "λ du GLM Poisson. Modèle linéaire très interprétable.") +
-                metric_pill("Poisson GLM away", f"{r['poisson_lambda_away']:.3f}", "λ GLM pour l'équipe away.") +
-                metric_pill("LightGBM home", f"{r['lgbm_lambda_home']:.3f}", "λ LightGBM (gradient boosting). Capture les non-linéarités.", "purple") +
-                metric_pill("LightGBM away", f"{r['lgbm_lambda_away']:.3f}", "λ LGBM pour l'équipe away.", "purple") +
-                metric_pill("Calibré home", f"{r['lambda_home']:.3f}", "Ensemble (60% LGBM + 40% GLM) puis calibrage Isotonic. Valeur finale utilisée.", "green") +
-                metric_pill("Calibré away", f"{r['lambda_away']:.3f}", "Idem pour l'équipe away. Ces λ pilotent la matrice de probabilité.", "green")
+                metric_pill("Poisson GLM home", f"{r['poisson_lambda_home']:.3f}", "λ from the Poisson GLM. Linear, highly interpretable model.") +
+                metric_pill("Poisson GLM away", f"{r['poisson_lambda_away']:.3f}", "GLM λ for the away team.") +
+                metric_pill("LightGBM home", f"{r['lgbm_lambda_home']:.3f}", "λ from LightGBM (gradient boosting). Captures non-linear interactions.", "purple") +
+                metric_pill("LightGBM away", f"{r['lgbm_lambda_away']:.3f}", "LGBM λ for the away team.", "purple") +
+                metric_pill("Calibrated home", f"{r['lambda_home']:.3f}", "Ensemble (60% LGBM + 40% GLM) then Isotonic calibration. Final value used.", "green") +
+                metric_pill("Calibrated away", f"{r['lambda_away']:.3f}", "Same for the away team. These λ values drive the score probability matrix.", "green")
             )
             st.markdown(f'<div class="card"><div class="card-title">Expected Goals (λ Poisson)</div><div class="metrics-grid">{pxg}</div></div>', unsafe_allow_html=True)
-            st.markdown(f'<div class="card"><div class="card-title">Détail par modèle</div><div class="metrics-grid">{pm}</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="card"><div class="card-title">Model breakdown</div><div class="metrics-grid">{pm}</div></div>', unsafe_allow_html=True)
 
         with c2:
             pb = (
-                metric_pill("BTTS",     fmt_pct(xg["btts_prob"]),     "Both Teams To Score : P(λ_home ≥ 1) × P(λ_away ≥ 1). Les deux équipes marquent.") +
-                metric_pill("Over 0.5", fmt_pct(xg["over_0_5_prob"]), "P(total buts ≥ 1).") +
-                metric_pill("Over 1.5", fmt_pct(xg["over_1_5_prob"]), "P(total buts ≥ 2).") +
-                metric_pill("Over 2.5", fmt_pct(xg["over_2_5_prob"]), "P(total buts ≥ 3). Seuil le plus populaire chez les bookmakers.", "amber" if xg["over_2_5_prob"] > 0.5 else "") +
-                metric_pill("Over 3.5", fmt_pct(xg["over_3_5_prob"]), "P(total buts ≥ 4). Match ouvert.") +
-                metric_pill("Over 4.5", fmt_pct(xg["over_4_5_prob"]), "P(total buts ≥ 5). Festival offensif.")
+                metric_pill("BTTS",     fmt_pct(xg["btts_prob"]),     "Both Teams To Score: P(λ_home ≥ 1) × P(λ_away ≥ 1). Both teams find the net.") +
+                metric_pill("Over 0.5", fmt_pct(xg["over_0_5_prob"]), "P(total goals ≥ 1).") +
+                metric_pill("Over 1.5", fmt_pct(xg["over_1_5_prob"]), "P(total goals ≥ 2).") +
+                metric_pill("Over 2.5", fmt_pct(xg["over_2_5_prob"]), "P(total goals ≥ 3). Most popular bookmaker threshold.", "amber" if xg["over_2_5_prob"] > 0.5 else "") +
+                metric_pill("Over 3.5", fmt_pct(xg["over_3_5_prob"]), "P(total goals ≥ 4). Open game.") +
+                metric_pill("Over 4.5", fmt_pct(xg["over_4_5_prob"]), "P(total goals ≥ 5). Goal-fest.")
             )
             pcs = (
-                metric_pill(f"CS {home_display[:14]}", fmt_pct(cs["clean_sheet_home_prob"]), f"P({away_display} ne marque pas) = e^(−λ_away).") +
-                metric_pill(f"CS {away_display[:14]}", fmt_pct(cs["clean_sheet_away_prob"]), f"P({home_display} ne marque pas) = e^(−λ_home).")
+                metric_pill(f"CS {home_display[:14]}", fmt_pct(cs["clean_sheet_home_prob"]), f"P({away_display} doesn't score) = e^(−λ_away).") +
+                metric_pill(f"CS {away_display[:14]}", fmt_pct(cs["clean_sheet_away_prob"]), f"P({home_display} doesn't score) = e^(−λ_home).")
             )
-            st.markdown(f'<div class="card"><div class="card-title">Marchés buts</div><div class="metrics-grid">{pb}</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="card"><div class="card-title">Goals markets</div><div class="metrics-grid">{pb}</div></div>', unsafe_allow_html=True)
             st.markdown(f'<div class="card"><div class="card-title">Clean sheets</div><div class="metrics-grid">{pcs}</div></div>', unsafe_allow_html=True)
 
-    # ─ Tab 3 : ELO & Force ───────────────────────────────────────────────
+    # ─ Tab 3: ELO & Strength ───────────────────────────────────────────────
     with t3:
         c1, c2 = st.columns(2)
         with c1:
@@ -726,47 +726,47 @@ def page_predictor():
             ep = r["elo_win_prob_home"]
             st.markdown(f"""
             <div class="card">
-              <div class="card-title">Ratings ELO (recalculés sur tout l'historique)</div>
+              <div class="card-title">ELO ratings (recalculated over full history)</div>
               <div class="elo-row"><div class="elo-team">{flag(home_key)} {home_display[:16]}</div><div class="elo-track"><div class="elo-fill" style="width:{wh:.1f}%"></div></div><div class="elo-val">{r['elo_home']:.0f}</div></div>
               <div class="elo-row"><div class="elo-team">{flag(away_key)} {away_display[:16]}</div><div class="elo-track"><div class="elo-fill" style="width:{wa:.1f}%"></div></div><div class="elo-val">{r['elo_away']:.0f}</div></div>
               <div style="margin-top:.9rem;padding-top:.7rem;border-top:1.5px solid #F3F4F6;">
-                <div class="card-title">Probabilité ELO pure (sans ML)</div>
+                <div class="card-title">Pure ELO probability (no ML)</div>
                 {proba_bar(f"{flag(home_key)} {home_display}", ep, "home")}
                 {proba_bar(f"{flag(away_key)} {away_display}", 1-ep, "away")}
-                <div style="font-size:.66rem;color:#9CA3AF;margin-top:.35rem;">Formule ELO classique — baseline théorique indépendante des modèles</div>
+                <div style="font-size:.66rem;color:#9CA3AF;margin-top:.35rem;">Classic ELO formula — theoretical baseline independent of the models</div>
               </div>
             </div>""", unsafe_allow_html=True)
 
             lbl = f'<div style="display:flex;justify-content:space-between;font-size:.62rem;font-weight:700;margin-bottom:.35rem;"><span style="color:#15803D;">{flag(home_key)} {home_display}</span><span style="color:#DC2626;">{flag(away_key)} {away_display}</span></div>'
             cmp = (
                 compare_bar("Overall top11",     hi.get("top11_overall_mean"),   ai.get("top11_overall_mean")) +
-                compare_bar("Attaque (shoot)",   hi.get("top11_shooting_mean"),  ai.get("top11_shooting_mean")) +
-                compare_bar("Défense",           hi.get("top11_defending_mean"), ai.get("top11_defending_mean")) +
-                compare_bar("Passe",             hi.get("top11_passing_mean"),   ai.get("top11_passing_mean")) +
-                compare_bar("Vitesse (pace)",    hi.get("top11_pace_mean"),      ai.get("top11_pace_mean")) +
-                compare_bar("Physique",          hi.get("top11_physic_mean"),    ai.get("top11_physic_mean"))
+                compare_bar("Attack (shooting)", hi.get("top11_shooting_mean"),  ai.get("top11_shooting_mean")) +
+                compare_bar("Defence",           hi.get("top11_defending_mean"), ai.get("top11_defending_mean")) +
+                compare_bar("Passing",           hi.get("top11_passing_mean"),   ai.get("top11_passing_mean")) +
+                compare_bar("Pace",              hi.get("top11_pace_mean"),      ai.get("top11_pace_mean")) +
+                compare_bar("Physicality",       hi.get("top11_physic_mean"),    ai.get("top11_physic_mean"))
             )
-            st.markdown(f'<div class="card"><div class="card-title">Comparaison Strength FIFA (top 11)</div>{lbl}{cmp}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="card"><div class="card-title">FIFA Strength comparison (top 11)</div>{lbl}{cmp}</div>', unsafe_allow_html=True)
 
         with c2:
             ps = (
-                metric_pill(f"Strength {home_display[:13]}", fmt_f(hi.get("team_strength_score"),1), "Score composite FIFA (overall, potentiel, valeur marchande).", "green") +
-                metric_pill(f"Strength {away_display[:13]}", fmt_f(ai.get("team_strength_score"),1), "Idem pour l'équipe adverse.", "green") +
-                metric_pill(f"Valeur top11 {home_display[:9]}", f"{(hi.get('top11_value_sum_eur') or 0)/1e6:.0f}M€", "Valeur marchande cumulée des 11 meilleurs joueurs (données FIFA).") +
-                metric_pill(f"Valeur top11 {away_display[:9]}", f"{(ai.get('top11_value_sum_eur') or 0)/1e6:.0f}M€", "Idem.") +
-                metric_pill(f"≥85 top23 {home_display[:9]}", str(hi.get("count_85_plus_top23") or 0), "Joueurs top 23 avec note FIFA ≥ 85. Densité de talent élite.") +
-                metric_pill(f"≥85 top23 {away_display[:9]}", str(ai.get("count_85_plus_top23") or 0), "Idem pour l'équipe adverse.")
+                metric_pill(f"Strength {home_display[:13]}", fmt_f(hi.get("team_strength_score"),1), "FIFA composite score (overall, potential, market value).", "green") +
+                metric_pill(f"Strength {away_display[:13]}", fmt_f(ai.get("team_strength_score"),1), "Same for the opposing team.", "green") +
+                metric_pill(f"Top11 value {home_display[:9]}", f"{(hi.get('top11_value_sum_eur') or 0)/1e6:.0f}M€", "Combined market value of the 11 best players (FIFA data).") +
+                metric_pill(f"Top11 value {away_display[:9]}", f"{(ai.get('top11_value_sum_eur') or 0)/1e6:.0f}M€", "Same.") +
+                metric_pill(f"≥85 top23 {home_display[:9]}", str(hi.get("count_85_plus_top23") or 0), "Top-23 players with FIFA rating ≥ 85. Elite talent density.") +
+                metric_pill(f"≥85 top23 {away_display[:9]}", str(ai.get("count_85_plus_top23") or 0), "Same for the opposing team.")
             )
             pa = (
-                metric_pill(f"Adv. buts {home_display[:12]}", f"{hi.get('home_adv_goals', 0) or 0:+.2f}", f"Delta buts/match {home_display} : domicile vs neutre. Positif = meilleur chez soi.") +
-                metric_pill(f"Adv. buts {away_display[:12]}", f"{ai.get('home_adv_goals', 0) or 0:+.2f}", f"Idem pour {away_display}.") +
-                metric_pill(f"Adv. WR {home_display[:13]}", fmt_pct(hi.get("home_adv_winrate")), f"Delta win rate domicile vs neutre pour {home_display}.") +
-                metric_pill(f"Adv. WR {away_display[:13]}", fmt_pct(ai.get("home_adv_winrate")), "Idem pour l'équipe adverse.")
+                metric_pill(f"Home adv. goals {home_display[:8]}", f"{hi.get('home_adv_goals', 0) or 0:+.2f}", f"Goals/match delta for {home_display}: home vs neutral. Positive = stronger at home.") +
+                metric_pill(f"Home adv. goals {away_display[:8]}", f"{ai.get('home_adv_goals', 0) or 0:+.2f}", f"Same for {away_display}.") +
+                metric_pill(f"Home adv. WR {home_display[:9]}", fmt_pct(hi.get("home_adv_winrate")), f"Win-rate delta home vs neutral for {home_display}.") +
+                metric_pill(f"Home adv. WR {away_display[:9]}", fmt_pct(ai.get("home_adv_winrate")), "Same for the opposing team.")
             )
-            st.markdown(f'<div class="card"><div class="card-title">Score de force global</div><div class="metrics-grid">{ps}</div></div>', unsafe_allow_html=True)
-            st.markdown(f'<div class="card"><div class="card-title">Avantage terrain historique</div><div class="metrics-grid">{pa}</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="card"><div class="card-title">Overall strength score</div><div class="metrics-grid">{ps}</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="card"><div class="card-title">Historical home advantage</div><div class="metrics-grid">{pa}</div></div>', unsafe_allow_html=True)
 
-    # ─ Tab 4 : H2H & Forme ───────────────────────────────────────────────
+    # ─ Tab 4: H2H & Form ───────────────────────────────────────────────────
     with t4:
         c1, c2 = st.columns(2)
         with c1:
@@ -775,18 +775,18 @@ def page_predictor():
                 badges = "".join(f'<span class="h2h-badge {b}">{b}</span>' for b in last[-10:])
                 h2h_html = f"""
                 <div class="card">
-                  <div class="card-title">Head-to-Head (derniers {h2h['h2h_n']} matchs)</div>
+                  <div class="card-title">Head-to-Head (last {h2h['h2h_n']} matches)</div>
                   <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:.8rem;">
-                    <div><div class="metric-label">Matchs</div><div class="stat-big">{h2h['h2h_n']}</div></div>
-                    <div><div class="metric-label">Victoires {flag(home_key)}</div><div class="stat-big green">{h2h['h2h_wins']}</div></div>
-                    <div><div class="metric-label">Nuls</div><div class="stat-big amber">{h2h['h2h_draws']}</div></div>
-                    <div><div class="metric-label">Défaites {flag(home_key)}</div><div class="stat-big red">{h2h['h2h_losses']}</div></div>
+                    <div><div class="metric-label">Matches</div><div class="stat-big">{h2h['h2h_n']}</div></div>
+                    <div><div class="metric-label">Wins {flag(home_key)}</div><div class="stat-big green">{h2h['h2h_wins']}</div></div>
+                    <div><div class="metric-label">Draws</div><div class="stat-big amber">{h2h['h2h_draws']}</div></div>
+                    <div><div class="metric-label">Losses {flag(home_key)}</div><div class="stat-big red">{h2h['h2h_losses']}</div></div>
                   </div>
                   {proba_bar(f"{flag(home_key)} {home_display}", h2h['h2h_home_winrate'], "home")}
-                  {proba_bar("⚖️ Nul", h2h['h2h_draw_rate'], "draw")}
+                  {proba_bar("⚖️ Draw", h2h['h2h_draw_rate'], "draw")}
                   {proba_bar(f"{flag(away_key)} {away_display}", h2h['h2h_away_winrate'], "away")}
                   <div style="margin-top:.8rem;padding-top:.7rem;border-top:1.5px solid #F3F4F6;">
-                    <div class="card-title">Buts moyens par match</div>
+                    <div class="card-title">Average goals per match</div>
                     <div style="display:flex;align-items:center;gap:1rem;font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;">
                       <span style="color:#15803D;">{flag(home_key)} {h2h['h2h_avg_goals_home']:.1f}</span>
                       <span style="color:#9CA3AF;">—</span>
@@ -794,106 +794,106 @@ def page_predictor():
                     </div>
                   </div>
                   <div style="margin-top:.75rem;">
-                    <div class="card-title">Derniers résultats (point de vue {home_display})</div>
+                    <div class="card-title">Recent results (from {home_display}'s perspective)</div>
                     <div class="h2h-badges">{badges}</div>
                   </div>
                 </div>"""
             else:
-                h2h_html = '<div class="card"><div class="card-title">Head-to-Head</div><div style="color:#6B7280;font-size:.82rem;padding:.3rem 0;">Aucun historique de confrontation directe disponible.</div></div>'
+                h2h_html = '<div class="card"><div class="card-title">Head-to-Head</div><div style="color:#6B7280;font-size:.82rem;padding:.3rem 0;">No direct head-to-head history available.</div></div>'
             st.markdown(h2h_html, unsafe_allow_html=True)
 
         with c2:
             lbl = f'<div style="display:flex;justify-content:space-between;font-size:.62rem;font-weight:700;margin-bottom:.38rem;"><span style="color:#15803D;">{flag(home_key)} {home_display}</span><span style="color:#DC2626;">{flag(away_key)} {away_display}</span></div>'
             form = (
-                compare_bar("Win rate (5 matchs)",       hi.get("win_last5"),           ai.get("win_last5")) +
-                compare_bar("Win rate (10 matchs)",      hi.get("win_last10"),          ai.get("win_last10")) +
-                compare_bar("Win rate (20 matchs)",      hi.get("win_last20"),          ai.get("win_last20")) +
-                compare_bar("Buts marqués/match (5)",    hi.get("goals_scored_last5"),  ai.get("goals_scored_last5")) +
-                compare_bar("Buts encaissés/match (5)",  hi.get("goals_conceded_last5"),ai.get("goals_conceded_last5"), low_good=True) +
-                compare_bar("xG récents (EWM-10)",       hi.get("goals_scored_ewm10"),  ai.get("goals_scored_ewm10")) +
-                compare_bar("Clean sheets (10 matchs)",  hi.get("clean_sheet_last10"),  ai.get("clean_sheet_last10"))
+                compare_bar("Win rate (last 5)",         hi.get("win_last5"),           ai.get("win_last5")) +
+                compare_bar("Win rate (last 10)",        hi.get("win_last10"),          ai.get("win_last10")) +
+                compare_bar("Win rate (last 20)",        hi.get("win_last20"),          ai.get("win_last20")) +
+                compare_bar("Goals scored/match (5)",    hi.get("goals_scored_last5"),  ai.get("goals_scored_last5")) +
+                compare_bar("Goals conceded/match (5)",  hi.get("goals_conceded_last5"),ai.get("goals_conceded_last5"), low_good=True) +
+                compare_bar("Recent xG (EWM-10)",        hi.get("goals_scored_ewm10"),  ai.get("goals_scored_ewm10")) +
+                compare_bar("Clean sheets (last 10)",    hi.get("clean_sheet_last10"),  ai.get("clean_sheet_last10"))
             )
-            st.markdown(f'<div class="card"><div class="card-title">Forme récente</div>{lbl}{form}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="card"><div class="card-title">Recent form</div>{lbl}{form}</div>', unsafe_allow_html=True)
 
     ctx   = r["match_context"]
     warns = []
-    if not ctx["home_known_in_strength"]: warns.append(f"{home_display} absent du fichier strength")
-    if not ctx["away_known_in_strength"]: warns.append(f"{away_display} absent du fichier strength")
+    if not ctx["home_known_in_strength"]: warns.append(f"{home_display} not found in the strength dataset")
+    if not ctx["away_known_in_strength"]: warns.append(f"{away_display} not found in the strength dataset")
     if warns:
-        st.markdown(f'<div class="warn-box">⚠️ {" · ".join(warns)} — prédiction dégradée (features strength = 0).</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="warn-box">⚠️ {" · ".join(warns)} — prediction quality degraded (strength features set to 0).</div>', unsafe_allow_html=True)
 
 
-# ── PAGE EXPLICATIONS ──────────────────────────────────────────────────────────
+# ── HOW IT WORKS PAGE ───────────────────────────────────────────────────────────
 def page_explainer():
     st.markdown("""
     <div class="hero">
       <div class="hero-eyebrow">📖 Documentation</div>
-      <h1 class="hero-title">COMMENT ÇA <span>MARCHE</span> ?</h1>
+      <h1 class="hero-title">HOW DOES IT <span>WORK</span>?</h1>
     </div>
     <div class="explainer">
 
-    <h2>Architecture du modèle</h2>
-    <p>Le prédicteur combine deux familles de modèles entraînés indépendamment pour prédire
-    les buts de chaque équipe — un pour les buts home, un pour les buts away :</p>
+    <h2>Model architecture</h2>
+    <p>The predictor combines two model families trained independently to predict
+    each team's goals — one for home goals, one for away goals:</p>
     <table>
-      <tr><th>Modèle</th><th>Type</th><th>Rôle</th></tr>
-      <tr><td><code>Poisson GLM</code></td><td>Régression linéaire généralisée</td><td>Interprétable, robuste sur petits effectifs</td></tr>
-      <tr><td><code>LightGBM</code></td><td>Gradient boosting (objective=poisson)</td><td>Capture les interactions non-linéaires</td></tr>
-      <tr><td><code>IsotonicRegression</code></td><td>Calibrage</td><td>Corrige le biais de surestimation des buts</td></tr>
+      <tr><th>Model</th><th>Type</th><th>Role</th></tr>
+      <tr><td><code>Poisson GLM</code></td><td>Generalised linear regression</td><td>Interpretable, robust on small samples</td></tr>
+      <tr><td><code>LightGBM</code></td><td>Gradient boosting (objective=poisson)</td><td>Captures non-linear interactions</td></tr>
+      <tr><td><code>IsotonicRegression</code></td><td>Calibration</td><td>Corrects the goal over-prediction bias</td></tr>
     </table>
-    <p>Les deux modèles sont combinés en <strong>ensemble pondéré (60% LGBM + 40% GLM)</strong>,
-    puis calibrés. Les lambdas calibrés (λ_home, λ_away) alimentent deux lois de Poisson indépendantes
-    pour générer la <strong>matrice P(home=i, away=j)</strong> 9×9 d'où toutes les probabilités sont dérivées.</p>
+    <p>Both models are combined into a <strong>weighted ensemble (60% LGBM + 40% GLM)</strong>,
+    then calibrated. The calibrated lambdas (λ_home, λ_away) feed two independent Poisson distributions
+    to generate the 9×9 <strong>P(home=i, away=j) matrix</strong> from which every probability is derived.</p>
 
-    <h2>Symétrie en terrain neutre</h2>
-    <p>En terrain neutre, predict(France, Brésil) doit être identique à predict(Brésil, France). Deux mécanismes garantissent cela :</p>
+    <h2>Neutral-venue symmetry</h2>
+    <p>On a neutral venue, predict(France, Brazil) must equal predict(Brazil, France). Two mechanisms guarantee this:</p>
     <ul>
-      <li><strong>Entraînement</strong> : data augmentation — chaque match neutre est dupliqué avec les équipes inversées.</li>
-      <li><strong>Inférence</strong> : double passe (A vs B + B vs A) puis λ_A = moyenne(λ_home(A,B), λ_away(B,A)). Symétrie mathématiquement garantie.</li>
+      <li><strong>Training</strong>: data augmentation — every neutral match is duplicated with the teams swapped.</li>
+      <li><strong>Inference</strong>: a double pass (A vs B + B vs A) then λ_A = average(λ_home(A,B), λ_away(B,A)). Mathematically guaranteed symmetry.</li>
     </ul>
 
-    <h2>Features utilisées</h2>
-    <h3>📡 ELO dynamique</h3>
-    <p>Recalculé depuis 1872 sur tout l'historique. K-factor adaptatif (32 amical → 60 CDM) + multiplicateur goal-diff. Signal #1 en prédiction foot.</p>
+    <h2>Features used</h2>
+    <h3>📡 Dynamic ELO</h3>
+    <p>Recomputed from 1872 across the full history. Adaptive K-factor (32 for friendlies → 60 for the World Cup) plus a goal-difference multiplier. The #1 signal in football prediction.</p>
 
-    <h3>📊 Rolling stats (5 / 10 / 20 matchs)</h3>
-    <p>Buts marqués/encaissés, win rate, clean sheet rate en fenêtre glissante. Plus une moyenne pondérée exponentielle (<code>EWM span=10</code>) pour la forme récente.</p>
+    <h3>📊 Rolling stats (5 / 10 / 20 matches)</h3>
+    <p>Goals scored/conceded, win rate, clean sheet rate over a sliding window. Plus an exponentially weighted moving average (<code>EWM span=10</code>) for recent form.</p>
 
-    <h3>🎮 Strength FIFA</h3>
-    <p>Notes FIFA des joueurs (top 11/23/5), valeurs marchandes, statistiques par poste (shooting, defending, passing, pace, physic, dribbling).</p>
+    <h3>🎮 FIFA Strength</h3>
+    <p>FIFA player ratings (top 11/23/5), market values, per-position stats (shooting, defending, passing, pace, physic, dribbling).</p>
 
     <h3>🤝 Head-to-Head</h3>
-    <p>Bilan des 10 dernières confrontations directes : win rate, buts moyens, draw rate.</p>
+    <p>Record of the last 10 direct meetings: win rate, average goals, draw rate.</p>
 
     <h3>🏠 Home advantage factor</h3>
-    <p>Delta de performance (buts et win rate) domicile vs terrain neutre, calculé individuellement par équipe.</p>
+    <p>Performance delta (goals and win rate) at home vs on neutral ground, computed individually per team.</p>
 
-    <h2>Glossaire des métriques</h2>
-    <h3>Score & résultat</h3>
-    <p><span class="tag">prediction</span> Score exact correspondant au maximum de la matrice Poisson.</p>
-    <p><span class="tag">predicted_result</span> home_win / draw / away_win selon la proba la plus haute parmi les 3.</p>
-    <p><span class="tag">confidence_score</span> [0–1] : clarté du résultat (50%) + écart ELO (35%) + richesse H2H (15%).</p>
-    <p><span class="tag">dominance_index</span> [−1, +1] : 40% xG + 35% ELO + 25% win prob. +1 = domination totale équipe 1.</p>
-    <p><span class="tag">upset_prob</span> P(le favori ELO perd). Mesure la surprise potentielle du match.</p>
+    <h2>Metric glossary</h2>
+    <h3>Score & result</h3>
+    <p><span class="tag">prediction</span> Exact score corresponding to the maximum of the Poisson matrix.</p>
+    <p><span class="tag">predicted_result</span> home_win / draw / away_win, whichever probability is highest among the three.</p>
+    <p><span class="tag">confidence_score</span> [0–1]: result clarity (50%) + ELO gap (35%) + H2H depth (15%).</p>
+    <p><span class="tag">dominance_index</span> [−1, +1]: 40% xG + 35% ELO + 25% win prob. +1 = total dominance for Team 1.</p>
+    <p><span class="tag">upset_prob</span> P(the ELO favourite loses). Measures the match's potential for a surprise.</p>
 
     <h3>Expected Goals (λ)</h3>
-    <p><span class="tag">lambda_home/away</span> Buts attendus après calibrage. Paramètre λ de la loi de Poisson.</p>
-    <p><span class="tag">btts_prob</span> Both Teams To Score : P(λ_home ≥ 1) × P(λ_away ≥ 1).</p>
-    <p><span class="tag">over_X_5_prob</span> P(total buts > X). Over 2.5 = seuil bookmakers standard.</p>
-    <p><span class="tag">clean_sheet</span> P(équipe adverse marque 0) = e^(−λ). Dérivé direct de Poisson.</p>
+    <p><span class="tag">lambda_home/away</span> Expected goals after calibration. λ parameter of the Poisson distribution.</p>
+    <p><span class="tag">btts_prob</span> Both Teams To Score: P(λ_home ≥ 1) × P(λ_away ≥ 1).</p>
+    <p><span class="tag">over_X_5_prob</span> P(total goals > X). Over 2.5 = standard bookmaker threshold.</p>
+    <p><span class="tag">clean_sheet</span> P(opposing team scores 0) = e^(−λ). Direct Poisson derivation.</p>
 
     <h3>ELO</h3>
-    <p><span class="tag">elo_home/away</span> Rating actuel. 1500 = moyenne mondiale. Top nations ≈ 1900–2100.</p>
-    <p><span class="tag">elo_win_prob_home</span> Probabilité ELO pure : <code>1 / (1 + 10^((elo_away − elo_home) / 400))</code>.</p>
+    <p><span class="tag">elo_home/away</span> Current rating. 1500 = world average. Top nations ≈ 1900–2100.</p>
+    <p><span class="tag">elo_win_prob_home</span> Pure ELO probability: <code>1 / (1 + 10^((elo_away − elo_home) / 400))</code>.</p>
 
-    <h2>Performances</h2>
+    <h2>Performance</h2>
     <table>
-      <tr><th>Métrique</th><th>Résultat</th><th>Référence naïve</th></tr>
-      <tr><td>MAE buts home</td><td>≈ 1.05–1.10</td><td>—</td></tr>
-      <tr><td>Résultat correct (H/N/D)</td><td>≈ 64%</td><td>~50% (modèle naïf)</td></tr>
-      <tr><td>Score exact correct</td><td>≈ 12%</td><td>~7% (aléatoire)</td></tr>
+      <tr><th>Metric</th><th>Result</th><th>Naïve baseline</th></tr>
+      <tr><td>Home goals MAE</td><td>≈ 1.05–1.10</td><td>—</td></tr>
+      <tr><td>Correct outcome (W/D/L)</td><td>≈ 64%</td><td>~50% (naïve model)</td></tr>
+      <tr><td>Correct exact score</td><td>≈ 12%</td><td>~7% (random)</td></tr>
     </table>
-    <p>Évaluation sur les 15% de matchs les plus récents (split temporel strict, pas de data leakage).</p>
+    <p>Evaluated on the most recent 15% of matches (strict temporal split, no data leakage).</p>
 
     </div>
     """, unsafe_allow_html=True)
