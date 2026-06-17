@@ -65,8 +65,9 @@ prono_cdm_2026/
 │   ├── latest_rolling_stats.parquet              # Latest rolling form per team
 │   ├── matches_history.parquet                   # Slim history for H2H lookups
 │   └── strength.parquet                          # FIFA strength snapshot
-├── train.py                                      # Feature engineering + model training
-├── predict.py                                    # Inference engine (Predictor class + predict_score())
+├── scripts/                                      # scripts folder 
+│   ├── train.py                                      # Feature engineering + model training
+│   ├── predict.py                                    # Inference engine (Predictor class + predict_score())
 ├── streamlit_app.py                              # Web dashboard
 ├── requirements.txt
 └── README.md
